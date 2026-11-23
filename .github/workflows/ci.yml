@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run tests in PowerShell 7 (pwsh)
+        shell: pwsh
+        run: pwsh -NoProfile -File .\tests\test-index.ps1
+
+      - name: Run tests in Windows PowerShell 5.1
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\test-index.ps1
+
+      - name: Verify single-file installer (-GlobalOnly)
+        shell: pwsh
+        run: |
+          .\install-index-v2.ps1 -GlobalOnly
+          $env:Path = "$env:LOCALAPPDATA\Programs\index;$env:Path"
+          index help

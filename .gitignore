@@ -1,0 +1,11 @@
+# Local issue tracker state
+.issues/
+
+# OS & Editor artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+*.bak*
+*.tmp
+.vscode/
+.idea/
